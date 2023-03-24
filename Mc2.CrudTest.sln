@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mc2.CrudTest.Shared", "Mc2.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mc2.CrudTest.Presentation.Server", "Mc2.CrudTest.Presentation\Server\Mc2.CrudTest.Presentation.Server.csproj", "{8D41010B-AEF1-4742-B7EC-6A5AE62C45FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer", "Customer\Customer.csproj", "{D99904A3-1FBD-45C0-A294-503FA546DBA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerAPI", "CustomerAPI\CustomerAPI.csproj", "{D99904A3-1FBD-45C0-A294-503FA546DBA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.Presentation", "Customer.Presentation\Customer.Presentation.csproj", "{727012FB-1E68-4D7F-8BA2-9283C726BE82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerAPI.Presentation", "CustomerAPI.Presentation\CustomerAPI.Presentation.csproj", "{727012FB-1E68-4D7F-8BA2-9283C726BE82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{B4343EAA-52D3-4BF6-882B-2F44ED2B5D11}"
 EndProject

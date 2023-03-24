@@ -1,3 +1,10 @@
 namespace Shared.DTO;
 
-public record CustomerForCreationDto(string FirstName, string LastName, DateOnly DateOfBirth, string PhoneNumber, string Email, string BankAccountNumber);
+public record CustomerForCreationDto(
+    string FirstName, 
+    string LastName, 
+    DateTime DateOfBirth, 
+    string PhoneNumber, 
+    string Email, 
+    string BankAccountNumber
+    );

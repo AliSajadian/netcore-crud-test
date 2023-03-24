@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +18,14 @@ public class Customer
      [MaxLength(50, ErrorMessage = "Maximum length for the last name is 50 characters.")] 
      public string LastName { get; set; } = null!;
      [Required(ErrorMessage = "Customer date of birth is a required field.")] 
-     public DateOnly? DateOfBirth { get; set; } = null!;
+     public DateTime? DateOfBirth { get; set; } = null!;
      [Column(TypeName = "varchar(20)")]
      [MaxLength(20, ErrorMessage = "Maximum length for the PhoneNumber is 20 characters.")] 
      public string? PhoneNumber { get; set; } 
      [Required(ErrorMessage = "Customer email is a required field.")] 
+     [MaxLength(100, ErrorMessage = "Maximum length for the Email is 100 characters.")] 
      public string Email { get; set; } = null!;
-     [MaxLength(20, ErrorMessage = "Maximum length for the BankAccountNumber is 20 characters.")] 
-     [Column(TypeName = "varchar(20)")]
+     [MaxLength(40, ErrorMessage = "Maximum length for the BankAccountNumber is 40 characters.")] 
+     [Column(TypeName = "varchar(40)")]
      public string? BankAccountNumber { get; set; } 
 } 
