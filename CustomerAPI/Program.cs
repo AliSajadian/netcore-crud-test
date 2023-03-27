@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
-using MediatR;
-using FluentValidation;
 
+using Application;
 using CustomerAPI.Extensions;
 using CustomerAPI.Presentation.Filters.ActionFilters;
 
@@ -21,15 +20,11 @@ builder.Services.AddControllers(config => {
   }).AddXmlDataContractSerializerFormatters()
     .AddApplicationPart(typeof(CustomerAPI.Presentation.AssemblyReference).Assembly);
 builder.Services.ConfigureSqlContext(builder.Configuration);
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIIS();
-builder.Services.AddHttpContextAccessor();
+builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigureSwagger();
-builder.Services.AddMediatR(typeof(Application.AssemblyReference).Assembly);
 builder.Services.AddScoped<ValidationFilterAttribute>();
-builder.Services.AddValidatorsFromAssembly(typeof(Application.AssemblyReference).Assembly);
 
 var app = builder.Build();
 

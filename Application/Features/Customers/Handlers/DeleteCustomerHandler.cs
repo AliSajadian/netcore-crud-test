@@ -1,21 +1,16 @@
 using MediatR;
 
-using Entities.Exceptions;
 using Contracts;
-using Application.Customers.Commands;
-using Application.Notifications;
-using Shared.Responses;
+using Application.Features.Customers.Commands;
 
-namespace Application.Customers.Handlers;
+namespace Application.Features.Customers.Handlers;
 
 
-// internal sealed class DeleteCustomerHandler : IRequestHandler<DeleteCustomerCommand, Unit> 
 public sealed class DeleteCustomerHandler : IRequestHandler<DeleteCustomerCommand, NoneRecordCommandResponse>
 { 
     private readonly IUnitOfWork _repository; 
     public DeleteCustomerHandler(IUnitOfWork repository) => _repository = repository; 
 
-    // public async Task<Unit> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken) 
     public async Task<NoneRecordCommandResponse> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
     { 
         var response = new NoneRecordCommandResponse();

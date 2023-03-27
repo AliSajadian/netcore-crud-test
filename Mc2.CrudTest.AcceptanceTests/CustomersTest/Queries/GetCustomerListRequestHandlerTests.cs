@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -9,13 +8,12 @@ using Xunit;
 using Xunit.Abstractions;
 using AutoMapper;
 
-using Shared.DTO;
 using Contracts;
-using Application.Customers.Handlers;
-using Application.Customers.Queries;
-using CustomerAPI;
-using CrudTest.Mocks;
 using Entities.Models;
+using Application.Mappers;
+using Application.Features.Customers.Handlers;
+using Application.Features.Customers.Queries;
+using CrudTest.Mocks;
 
 namespace CustomersTest.Queries
 {

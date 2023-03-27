@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Shared.DTO;
 
-namespace Application.Customers.Validators
+namespace Application.Validators
 {
     public class CreateCustomerDtoValidator : AbstractValidator<CustomerForCreationDto>
     {

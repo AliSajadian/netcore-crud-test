@@ -3,15 +3,11 @@ using MediatR;
 using Marvin.Cache.Headers;
 
 using Shared.DTO;
-using Application.Customers.Queries;
-using Application.Customers.Commands;
-using Application.Notifications;
-using CustomerAPI.Presentation.ModelBinders;
+using Application.Features.Customers.Queries;
+using Application.Features.Customers.Commands;
 using CustomerAPI.Presentation.Filters.ActionFilters;
-using Shared.Responses;
 
 namespace CustomerAPI.Presentation.Controllers;
-
 
 [Route("api/customers")] 
 [ApiController] 

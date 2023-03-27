@@ -2,6 +2,7 @@ using AutoMapper;
 
 using Shared.DTO;
 
+namespace Application.Mappers;
 public class MappingProfile : Profile 
 { 
     public MappingProfile() 

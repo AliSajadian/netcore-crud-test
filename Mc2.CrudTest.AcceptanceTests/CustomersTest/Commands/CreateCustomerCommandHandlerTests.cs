@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Moq;
 using Shouldly;
 using Xunit;
@@ -11,12 +12,11 @@ using AutoMapper;
 using Contracts;
 using Shared.Responses;
 using Shared.DTO;
-using Application.Customers.Commands;
-using Application.Customers.Handlers;
+using Application.Mappers;
+using Application.Features.Customers.Commands;
+using Application.Features.Customers.Handlers;
 using CrudTest.Mocks;
 using Entities.Models;
-using Application.Notifications;
-using System.Collections.Generic;
 
 namespace CustomersTest.Commands
 {

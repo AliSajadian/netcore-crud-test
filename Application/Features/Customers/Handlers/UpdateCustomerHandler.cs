@@ -3,12 +3,12 @@ using AutoMapper;
 
 using Entities.Exceptions;
 using Contracts;
-using Application.Customers.Commands;
+using Application.Features.Customers.Commands;
 using Shared.Responses;
 using Shared.DTO;
-using Application.Customers.Validators;
+using Application.Validators;
 
-namespace Application.Customers.Handlers;
+namespace Application.Features.Customers.Handlers;
 
 
 public sealed class UpdateCustomerHandler : IRequestHandler<UpdateCustomerCommand, SingleRecordCommandResponse>

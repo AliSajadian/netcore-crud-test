@@ -1,10 +1,7 @@
 ﻿using FluentValidation;
 using Shared.DTO;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Application.Customers.Validators
+namespace Application.Validators
 {
     public class UpdateCustomerDtoValidator : AbstractValidator<CustomerForUpdateDto>
     {

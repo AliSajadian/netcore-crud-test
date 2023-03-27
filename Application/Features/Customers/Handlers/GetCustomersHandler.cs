@@ -3,10 +3,10 @@ using AutoMapper;
 
 using Contracts;
 using Shared.DTO;
-using Application.Customers.Queries;
+using Application.Features.Customers.Queries;
 using Shared.Responses;
 
-namespace Application.Customers.Handlers;
+namespace Application.Features.Customers.Handlers;
 
 public sealed class GetCustomersHandler : IRequestHandler<GetCustomersQuery, MultiRecordCommandResponse> 
 { 

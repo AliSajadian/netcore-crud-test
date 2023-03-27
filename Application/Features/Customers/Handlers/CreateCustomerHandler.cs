@@ -5,11 +5,10 @@ using Entities.Models;
 using Contracts;
 using Shared.DTO;
 using Shared.Responses;
-using Application.Customers.Commands;
-using Application.Customers.Validators;
+using Application.Features.Customers.Commands;
+using Application.Validators;
 
-namespace Application.Customers.Handlers;
-
+namespace Application.Features.Customers.Handlers;
 
 public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, SingleRecordCommandResponse> 
 { 
