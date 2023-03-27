@@ -27,9 +27,9 @@ public class ArrayModelBinder : IModelBinder
         var objectArray = providedValue.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries) 
                                        .Select(x => converter.ConvertFromString(x.Trim())) 
                                        .ToArray(); 
-        var guidArray = Array.CreateInstance(genericType, objectArray.Length); 
-        objectArray.CopyTo(guidArray, 0); 
-        bindingContext.Model = guidArray; 
+        var intArray = Array.CreateInstance(genericType, objectArray.Length); 
+        objectArray.CopyTo(intArray, 0); 
+        bindingContext.Model = intArray; 
         bindingContext.Result = ModelBindingResult.Success(bindingContext.Model); 
         return Task.CompletedTask; 
     } 

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CustomerAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDB : Migration
+    public partial class Create_DB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,8 @@ namespace CustomerAPI.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -35,8 +36,8 @@ namespace CustomerAPI.Migrations
                 columns: new[] { "CustomerId", "BankAccountNumber", "DateOfBirth", "Email", "FirstName", "LastName", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"), "8431785581235190054864", new DateTime(1942, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "Harrison.Ford@gmail.com", "Harrison", "Ford", "+466432895745" },
-                    { new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"), "3453763731234523452346", new DateTime(1956, 6, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tom.Hangs@gmail.com", "Tom", "Hangs", "+461532895412" }
+                    { 1, "3453763731234523452346", new DateTime(1956, 6, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Tom.Hangs@gmail.com", "Tom", "Hangs", "+461532895412" },
+                    { 2, "8431785581235190054864", new DateTime(1942, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "Harrison.Ford@gmail.com", "Harrison", "Ford", "+466432895745" }
                 });
 
             migrationBuilder.CreateIndex(

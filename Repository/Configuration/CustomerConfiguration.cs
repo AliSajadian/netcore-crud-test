@@ -10,7 +10,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.HasData ( 
             new Customer 
             { 
-                Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"), 
+                Id = 1, 
                 FirstName = "Tom", 
                 LastName = "Hangs", 
                 DateOfBirth = new DateTime(1956,06,09), 
@@ -20,7 +20,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             }, 
             new Customer
             {
-                Id = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"), 
+                Id = 2, 
                 FirstName = "Harrison", 
                 LastName = "Ford", 
                 DateOfBirth = new DateTime(1942,06,13), 

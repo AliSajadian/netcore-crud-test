@@ -8,6 +8,7 @@ using Application.Customers.Commands;
 using Application.Notifications;
 using CustomerAPI.Presentation.ModelBinders;
 using CustomerAPI.Presentation.Filters.ActionFilters;
+using Shared.Responses;
 
 namespace CustomerAPI.Presentation.Controllers;
 
@@ -37,29 +38,14 @@ public class CustomersController : ControllerBase
     }
 
     /// <summary> 
-    /// Gets the list of a collection of customers 
-    /// </summary> 
-    /// <param name="ids"></param>
-    /// <returns>The customers collection</returns>
-    /// <response code="400">If the item is null</response>
-    // [HttpGet("collection/({ids})", Name = "CustomerCollection")]
-    // public async Task<IActionResult> GetCustomerCollection (
-    //     [ModelBinder(BinderType = typeof(ArrayModelBinder))]IEnumerable<Guid> ids) 
-    // { 
-    //     var customers = await _sender.Send(new GetCustomerCollectionQuery(ids, TrackChanges: false)); 
-    //     return Ok(customers); 
-    // }
-
-    /// <summary> 
     /// Gets the specified customer 
     /// </summary> 
     /// <param name="id"></param>
     /// <returns>The customer</returns>
-    [HttpGet("{id:guid}", Name = "CustomerById")]
-    // [ResponseCache(CacheProfileName = "120SecondsDuration")]
+    [HttpGet("{id:int}", Name = "CustomerById")]
     [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 60)] 
     [HttpCacheValidation(MustRevalidate = false)]
-    public async Task<IActionResult> GetCustomer(Guid id) 
+    public async Task<IActionResult> GetCustomer(int id) 
     { 
         var customer = await _sender.Send(new GetCustomerQuery(id, TrackChanges: false));
         return Ok(customer); 
@@ -76,36 +62,16 @@ public class CustomersController : ControllerBase
     [HttpPost(Name = "CreateCustomer")]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)] 
-    [ProducesResponseType(422)]
     // [ServiceFilter(typeof(ValidationFilterAttribute))] 
     public async Task<IActionResult> CreateCustomer([FromBody] CustomerForCreationDto customerForCreationDto) 
     { 
         if (customerForCreationDto is null) 
             return BadRequest("CustomerForCreationDto object is null"); 
             
-        var customer = await _sender.Send(new CreateCustomerCommand(customerForCreationDto)); 
+        var response = await _sender.Send(new CreateCustomerCommand(customerForCreationDto)); 
         
-        return CreatedAtRoute("CustomerById", new { id = customer.Id }, customer); 
+        return Ok(response); 
     }
-
-    /// <summary> 
-    /// Creates a collection of created customers 
-    /// </summary> 
-    /// <param name="customerCollection"></param>
-    /// <returns>The collection of created customers</returns> 
-    /// <response code="201">Returns collection of created item</response> 
-    /// <response code="400">If the item is null</response> 
-    /// <response code="422">If the model is invalid</response> 
-    // [HttpPost("collection")] 
-    // [ProducesResponseType(201)]
-    // [ProducesResponseType(400)] 
-    // [ProducesResponseType(422)]
-    // public async Task<IActionResult> CreateCustomerCollection (
-    //     [FromBody] IEnumerable<CustomerForCreationDto> customerCollection) 
-    // { 
-    //     var result = await _sender.Send(new CreateCustomerCollectionCommand(customerCollection));
-    //     return CreatedAtRoute("CustomerCollection", new { result.ids }, result.customers); 
-    // }
 
     /// <summary> 
     /// Updates a customer 
@@ -116,19 +82,18 @@ public class CustomersController : ControllerBase
     /// <response code="200">Returns the updated item</response> 
     /// <response code="400">If the item is null</response> 
     /// <response code="422">If the model is invalid</response> 
-    [HttpPut("{id:guid}")] 
+    [HttpPut("{id:int}")] 
     [ProducesResponseType(200)]
     [ProducesResponseType(400)] 
-    [ProducesResponseType(422)]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> UpdateCustomer(Guid id, CustomerForUpdateDto customerForUpdateDto)
+    public async Task<IActionResult> UpdateCustomer(int id, CustomerForUpdateDto customerForUpdateDto)
     { 
         if (customerForUpdateDto is null) 
             return BadRequest("CustomerForUpdateDto object is null"); 
         
-        await _sender.Send(new UpdateCustomerCommand(id, customerForUpdateDto, TrackChanges: true)); 
+        var response = await _sender.Send(new UpdateCustomerCommand(id, customerForUpdateDto, TrackChanges: true)); 
         
-        return NoContent(); 
+        return Ok(response); 
     }
 
     /// <summary> 
@@ -138,15 +103,15 @@ public class CustomersController : ControllerBase
     /// <returns>Nothing</returns> 
     /// <response code="200">Nothing</response> 
     /// <response code="400">If the id is null</response> 
-    [HttpDelete("{id:guid}")] 
+    [HttpDelete("{id:int}")] 
     [ProducesResponseType(200)]
     [ProducesResponseType(400)] 
-    public async Task<IActionResult> DeleteCustomer(Guid id) 
+    public async Task<IActionResult> DeleteCustomer(int id) 
     { 
-        //await _sender.Send(new DeleteCustomerCommand(id, TrackChanges: false)); 
-        await _publisher.Publish(new CustomerDeletedNotification(id, TrackChanges: false));
+        var response = await _sender.Send(new DeleteCustomerCommand(id, TrackChanges: false)); 
+        // await _publisher.Publish(new CustomerDeletedNotification(id, TrackChanges: false));
 
-        return NoContent(); 
+        return Ok(response); 
     }
 }
 

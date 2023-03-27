@@ -3,16 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using FluentValidation;
 
-using Contracts;
-using Shared.DTO;
-using Application.Behaviors;
 using CustomerAPI.Extensions;
 using CustomerAPI.Presentation.Filters.ActionFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.ConfigureRepositoryManager();
+builder.Services.ConfigureUnitOfWork();
 builder.Services.Configure<ApiBehaviorOptions>(options => {
     options.SuppressModelStateInvalidFilter = true;
 });
@@ -28,12 +25,9 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIIS();
-builder.Services.ConfigureResponseCaching();
-builder.Services.ConfigureHttpCacheHeaders();
 builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigureSwagger();
 builder.Services.AddMediatR(typeof(Application.AssemblyReference).Assembly);
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.AddValidatorsFromAssembly(typeof(Application.AssemblyReference).Assembly);
 
@@ -46,7 +40,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(s =>
     { 
         s.SwaggerEndpoint("/swagger/v1/swagger.json", "Customer API v1"); 
-        s.SwaggerEndpoint("/swagger/v2/swagger.json", "Customer API v2"); 
     });
 
     // ===
@@ -68,10 +61,6 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 
 app.UseCors("CorsPolicy");
 // ===
-app.UseResponseCaching();
-
-app.UseHttpCacheHeaders();
-
 app.UseAuthorization();
 
 app.MapControllers();

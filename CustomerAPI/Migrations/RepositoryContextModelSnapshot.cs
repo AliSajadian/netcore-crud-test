@@ -24,10 +24,12 @@ namespace CustomerAPI.Migrations
 
             modelBuilder.Entity("Entities.Models.Customer", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("int")
                         .HasColumnName("CustomerId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BankAccountNumber")
                         .HasMaxLength(40)
@@ -69,7 +71,7 @@ namespace CustomerAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
+                            Id = 1,
                             BankAccountNumber = "3453763731234523452346",
                             DateOfBirth = new DateTime(1956, 6, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Tom.Hangs@gmail.com",
@@ -79,7 +81,7 @@ namespace CustomerAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
+                            Id = 2,
                             BankAccountNumber = "8431785581235190054864",
                             DateOfBirth = new DateTime(1942, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "Harrison.Ford@gmail.com",

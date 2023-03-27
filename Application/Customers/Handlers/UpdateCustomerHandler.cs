@@ -4,32 +4,59 @@ using AutoMapper;
 using Entities.Exceptions;
 using Contracts;
 using Application.Customers.Commands;
+using Shared.Responses;
+using Shared.DTO;
+using Application.Customers.Validators;
 
 namespace Application.Customers.Handlers;
 
 
-internal sealed class UpdateCustomerHandler : IRequestHandler<UpdateCustomerCommand, Unit>
+public sealed class UpdateCustomerHandler : IRequestHandler<UpdateCustomerCommand, SingleRecordCommandResponse>
 { 
-    private readonly IRepositoryManager _repository; 
+    private readonly IUnitOfWork _repository; 
     private readonly IMapper _mapper; 
 
-    public UpdateCustomerHandler(IRepositoryManager repository, IMapper mapper) 
+    public UpdateCustomerHandler(IUnitOfWork repository, IMapper mapper) 
     { 
         _repository = repository; 
         _mapper = mapper; 
     } 
 
-    public async Task<Unit> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken) 
+    public async Task<SingleRecordCommandResponse> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken) 
     {
-        var customerEntity = await _repository.Customer.GetCustomerAsync(request.Id, request.TrackChanges); 
+        var response = new SingleRecordCommandResponse();
+        var validator = new UpdateCustomerDtoValidator();
+        var validationResult = await validator.ValidateAsync(request.customer);
+
+        var customer = await _repository.Customer.GetCustomerAsync(request.Id); 
         
-        if (customerEntity is null) 
-            throw new CustomerNotFoundException(request.Id); 
-            
-        _mapper.Map(request.customer, customerEntity); 
-        
-        await _repository.SaveAsync(); 
-        
-        return Unit.Value; 
+        if (customer is null) 
+        {
+            response.Success = false;
+            response.Message = "Update Failed";
+            response.Errors = new List<string>(){
+                $"The Customer with id: {request.Id} doesn't exist in the database."
+                };
+        }
+        else if (validationResult.IsValid == false)
+        {
+            response.Success = false;
+            response.Message = "Update Failed";
+            response.Errors = validationResult.Errors.Select(q => q.ErrorMessage).ToList();
+        }
+        else
+        {
+            _mapper.Map(request.customer, customer); 
+            await _repository.Customer.UpdateCustomerAsync(customer);
+            await _repository.SaveAsync(); 
+            var customerDto = _mapper.Map<CustomerDto>(customer);
+
+            response.Success = true;
+            response.Message = "Update Successful";
+            response.Customer = customerDto;
+            response.Id = customer.Id;
+        }            
+
+        return response; 
     } 
 }

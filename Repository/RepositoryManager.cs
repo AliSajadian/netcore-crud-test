@@ -2,12 +2,12 @@ using Contracts;
 
 namespace Repository;
 
-public sealed class RepositoryManager : IRepositoryManager 
+public sealed class UnitOfWork : IUnitOfWork 
 { 
     private readonly RepositoryContext _repositoryContext; 
     private readonly Lazy<ICustomerRepository> _CustomerRepository; 
 
-    public RepositoryManager(RepositoryContext repositoryContext)
+    public UnitOfWork(RepositoryContext repositoryContext)
     {
          _repositoryContext = repositoryContext;
          _CustomerRepository = new Lazy<ICustomerRepository>(() => 

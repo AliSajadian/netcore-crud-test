@@ -1,8 +1,9 @@
 using MediatR; 
 
 using Shared.DTO;
+using Shared.Responses;
 
 namespace Application.Customers.Queries;
 
 
-public sealed record GetCustomerQuery(Guid Id, bool TrackChanges) : IRequest<CustomerDto>;
+public sealed record GetCustomerQuery(int Id, bool TrackChanges) : IRequest<SingleRecordCommandResponse>;

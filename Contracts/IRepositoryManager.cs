@@ -1,5 +1,5 @@
 namespace Contracts ;
-public interface IRepositoryManager 
+public interface IUnitOfWork 
 { 
     ICustomerRepository Customer { get; }
     void Save();

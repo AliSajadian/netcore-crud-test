@@ -4,29 +4,48 @@ using AutoMapper;
 using Entities.Models;
 using Contracts;
 using Shared.DTO;
+using Shared.Responses;
 using Application.Customers.Commands;
+using Application.Customers.Validators;
 
 namespace Application.Customers.Handlers;
 
 
-internal sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, CustomerDto> 
+public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, SingleRecordCommandResponse> 
 { 
-    private readonly IRepositoryManager _repository; 
+    private readonly IUnitOfWork _repository; 
     private readonly IMapper _mapper; 
 
-    public CreateCustomerHandler(IRepositoryManager repository, IMapper mapper) 
+    public CreateCustomerHandler(IUnitOfWork repository, IMapper mapper) 
     { 
         _repository = repository; 
         _mapper = mapper; 
     } 
     
-    public async Task<CustomerDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken) 
+    public async Task<SingleRecordCommandResponse> Handle(CreateCustomerCommand request, CancellationToken cancellationToken) 
     { 
-        var customerEntity = _mapper.Map<Customer>(request.customer); 
-        _repository.Customer.CreateCustomer(customerEntity); 
-        await _repository.SaveAsync();
+        var response = new SingleRecordCommandResponse();
+        var validator = new CreateCustomerDtoValidator();
+        var validationResult = await validator.ValidateAsync(request.customer);
 
-        var customerToReturn = _mapper.Map<CustomerDto>(customerEntity); 
-        return customerToReturn; 
+        if (validationResult.IsValid == false)
+        {
+            response.Success = false;
+            response.Message = "Creation Failed";
+            response.Errors = validationResult.Errors.Select(q => q.ErrorMessage).ToList();
+        }
+        else
+        {
+            var customer = _mapper.Map<Customer>(request.customer); 
+            customer = await _repository.Customer.CreateCustomerAsync(customer); 
+            await _repository.SaveAsync();
+            var customerDto = _mapper.Map<CustomerDto>(customer);
+
+            response.Success = true;
+            response.Message = "Creation Successful";
+            response.Customer = customerDto;
+            response.Id = customer.Id;
+        }
+        return response; 
     } 
 }

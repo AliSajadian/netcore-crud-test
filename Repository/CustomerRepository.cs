@@ -17,25 +17,18 @@ public class CustomerRepository : RepositoryBase<Customer>, ICustomerRepository
               .OrderBy(c => c.LastName)
               .ThenBy(c => c.FirstName) 
               .ToListAsync(); 
-    public async Task<Customer?> GetCustomerAsync(Guid CustomerId, bool trackChanges) => 
+
+    public async Task<Customer?> GetCustomerAsync(int CustomerId, bool trackChanges) => 
         await FindByCondition(c => c.Id.Equals(CustomerId), trackChanges)
               .SingleOrDefaultAsync(); 
+
+    public async Task<Customer?> GetCustomerAsync(int CustomerId) => 
+        await FindByCondition(c => c.Id.Equals(CustomerId), false)
+              .SingleOrDefaultAsync(); 
         
-    public async Task<IEnumerable<Customer>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges) => 
-        await FindByCondition(x => ids.Contains(x.Id), trackChanges) 
-              .ToListAsync();
-    
-    public IEnumerable<Customer> GetAllCustomers(bool trackChanges) => 
-        FindAll(trackChanges).OrderBy(c => c.LastName).ThenBy(c => c.FirstName).ToList();
+    public async Task<Customer> CreateCustomerAsync(Customer Customer) => await Create(Customer);
 
-    public IEnumerable<Customer> GetByIds(IEnumerable<Guid> ids, bool trackChanges) => 
-        FindByCondition(x => ids.Contains(x.Id), trackChanges) .ToList();
+    public async Task UpdateCustomerAsync(Customer Customer) => await Update(Customer);
 
-    public Customer? GetCustomer(Guid CustomerId, bool trackChanges) => 
-        FindByCondition(c => c.Id.Equals(CustomerId), trackChanges)
-        .SingleOrDefault();
-
-    public void CreateCustomer(Customer Customer) => Create(Customer);
-
-    public void DeleteCustomer(Customer Customer) => Delete(Customer);
+    public async Task DeleteCustomerAsync(Customer Customer) => await Delete(Customer);
 }

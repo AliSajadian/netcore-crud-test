@@ -1,12 +1,11 @@
 ﻿namespace Shared.DTO;
 
-public record CustomerDto 
+public record CustomerDto : BaseDto, ICustomerDto
 { 
-    public Guid Id { get; init; } 
-    public string FirstName { get; init; } = null!;
-    public string LastName { get; init; } = null!; 
-    public DateTime? DateOfBirth { get; init; } = null!;
-    public string? PhoneNumber { get; init; } 
-    public string Email { get; init; } = null!; 
-    public string? BankAccountNumber { get; init; }
+    public string FirstName { get; set; } = null!;
+    public string LastName { get; set; } = null!; 
+    public DateTime? DateOfBirth { get; set; } = null!;
+    public string? PhoneNumber { get; set; } 
+    public string Email { get; set; } = null!; 
+    public string? BankAccountNumber { get; set; }
 }

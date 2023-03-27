@@ -4,27 +4,41 @@ using AutoMapper;
 using Contracts;
 using Shared.DTO;
 using Application.Customers.Queries;
+using Shared.Responses;
 
 namespace Application.Customers.Handlers;
 
-
-sealed class GetCustomersHandler : IRequestHandler<GetCustomersQuery, IEnumerable<CustomerDto>> 
+public sealed class GetCustomersHandler : IRequestHandler<GetCustomersQuery, MultiRecordCommandResponse> 
 { 
-    private readonly IRepositoryManager _repository; 
+    private readonly IUnitOfWork _repository; 
     private readonly IMapper _mapper; 
 
-    public GetCustomersHandler(IRepositoryManager repository, IMapper mapper)
+    public GetCustomersHandler(IUnitOfWork repository, IMapper mapper)
     {
         _repository = repository; 
         _mapper = mapper; 
     }
 
-    public async Task<IEnumerable<CustomerDto>> Handle(GetCustomersQuery request, CancellationToken cancellationToken) 
+    public async Task<MultiRecordCommandResponse> Handle(GetCustomersQuery request, CancellationToken cancellationToken) 
     { 
-        var customers = await _repository.Customer.GetAllCustomersAsync(request.TrackChanges); 
+        var response = new MultiRecordCommandResponse();
+        try
+        {
+            var customers = await _repository.Customer.GetAllCustomersAsync(request.TrackChanges); 
+            
+            var customersDto = _mapper.Map<IEnumerable<CustomerDto>>(customers); 
+
+            response.Success = true;
+            response.Message = "Read all Successful";
+            response.Customers = customersDto.ToList();
+        }
+        catch(Exception e)
+        {
+            response.Success = false;
+            response.Message = "Read all Failed";
+            response.Errors = new List<string>(){e.Message};   
+        }
         
-        var customersDto = _mapper.Map<IEnumerable<CustomerDto>>(customers); 
-        
-        return customersDto;
+        return response;
     } 
 }

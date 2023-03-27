@@ -10,7 +10,7 @@ namespace Entities.Models;
 public class Customer 
 {
      [Column("CustomerId")]
-     public Guid Id { get; set; } 
+     public int Id { get; set; } 
      [Required(ErrorMessage = "Customer first name is a required field.")] 
      [MaxLength(50, ErrorMessage = "Maximum length for the first name is 50 characters.")] 
      public string? FirstName { get; set; } = null!;
@@ -25,7 +25,7 @@ public class Customer
      [Required(ErrorMessage = "Customer email is a required field.")] 
      [MaxLength(100, ErrorMessage = "Maximum length for the Email is 100 characters.")] 
      public string Email { get; set; } = null!;
-     [MaxLength(40, ErrorMessage = "Maximum length for the BankAccountNumber is 40 characters.")] 
      [Column(TypeName = "varchar(40)")]
+     [MaxLength(40, ErrorMessage = "Maximum length for the BankAccountNumber is 40 characters.")] 
      public string? BankAccountNumber { get; set; } 
 } 
