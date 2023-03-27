@@ -106,7 +106,7 @@ namespace CustomersTest.Commands
         }
 
         [Fact]
-        public async Task Handler_Should_ReturnFailureResult_When_CreateCustomerByInvalidEntity()
+        public async Task Handler_Should_ReturnFailureResult_For_BadRequest_When_CreateCustomerByInvalidEntity()
         {
             //ARRANGE
             _mockUnitOfWork.Setup(r => r.Customer.CreateCustomerAsync(It.IsAny<Customer>())).ReturnsAsync((Customer customer) => 
@@ -148,7 +148,28 @@ namespace CustomersTest.Commands
         }
 
         [Fact]
-        public async Task Handler_Should_ReturnFailureResult_When_UpdateCustomerByInvalidEntity()
+        public async Task Handler_Should_ReturnFailureResult_For_NotFound_When_UpdateCustomerByValidEntity()
+        {
+            //ARRANGE
+            int id = 10000;
+            _mockUnitOfWork.Setup(r => r.Customer.GetCustomerAsync(It.IsAny<int>())).ReturnsAsync((int id) =>
+            {
+                var customer = _customers.AsQueryable().Where(c => c.Id == id).FirstOrDefault();
+                return customer;
+            });
+            var _handler = new UpdateCustomerHandler(_mockUnitOfWork.Object, _mapper);
+
+            //ACT
+            var result = await _handler.Handle(new UpdateCustomerCommand(id, _validCustomerForUpdateDto, false), CancellationToken.None);
+
+            //ASSERT
+            result.ShouldBeOfType<SingleRecordCommandResponse>();
+
+            result.Success.ShouldBe(false);
+        }
+
+        [Fact]
+        public async Task Handler_Should_ReturnFailureResult_For_BadRequest_When_UpdateCustomerByInvalidEntity()
         {
             //ARRANGE
             int id = 1;

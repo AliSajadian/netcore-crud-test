@@ -49,7 +49,7 @@ namespace CustomersTest.Queries
             var result = await handler.Handle(new GetCustomersQuery(false), CancellationToken.None);
 
             //ASSERT
-            result.Message.ShouldBe("Read all Successful");
+            result.Success.ShouldBe(true);
             result.Customers.Count().ShouldBe(2);
         }
 
@@ -70,7 +70,27 @@ namespace CustomersTest.Queries
             var result = await handler.Handle(new GetCustomerQuery(id, false), CancellationToken.None);
 
             //ASSERT
-            result.Message.ShouldBe("Read Successful");
+            result.Success.ShouldBe(true);
+        }
+
+                [Fact]
+        public async Task Handler_Should_ReturnFailureResult_For_NotFound_When_GetCustomerById()
+        {
+            //ARRANGE
+            int id = 10000;
+            _mockUnitOfWork.Setup(r => r.Customer.GetCustomerAsync(It.IsAny<int>())).ReturnsAsync((int id) =>
+            {
+                var customer = _customers.AsQueryable().Where(c => c.Id == id).FirstOrDefault();
+                return customer;
+            });
+            
+            var handler = new GetCustomerHandler(_mockUnitOfWork.Object, _mapper);
+
+            //ACT
+            var result = await handler.Handle(new GetCustomerQuery(id, false), CancellationToken.None);
+
+            //ASSERT
+            result.Success.ShouldBe(false);
         }
     }
 }
