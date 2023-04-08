@@ -54,7 +54,6 @@ public sealed class UpdateCustomerHandler : IRequestHandler<UpdateCustomerComman
             response.Success = true;
             response.Message = "Update Successful";
             response.Customer = customerDto;
-            response.Id = customer.Id;
         }            
 
         return response; 

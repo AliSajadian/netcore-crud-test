@@ -86,8 +86,8 @@ public class CustomersController : ControllerBase
     { 
         if (customerForUpdateDto is null) 
             return BadRequest("CustomerForUpdateDto object is null"); 
-        
-        var response = await _sender.Send(new UpdateCustomerCommand(id, customerForUpdateDto, TrackChanges: true)); 
+        // , TrackChanges: true
+        var response = await _sender.Send(new UpdateCustomerCommand(id, customerForUpdateDto, false)); 
         
         return Ok(response); 
     }

@@ -19,13 +19,16 @@ public class Customer
      public string LastName { get; set; } = null!;
      [Required(ErrorMessage = "Customer date of birth is a required field.")] 
      public DateTime? DateOfBirth { get; set; } = null!;
+     [Column(TypeName = "varchar(4)")]
+     [MaxLength(4, ErrorMessage = "Maximum length for the country code is 4 characters.")] 
+     public string? CountryCode { get; set; }
      [Column(TypeName = "varchar(20)")]
-     [MaxLength(20, ErrorMessage = "Maximum length for the PhoneNumber is 20 characters.")] 
+     [MaxLength(20, ErrorMessage = "Maximum length for the phone number is 20 characters.")] 
      public string? PhoneNumber { get; set; } 
      [Required(ErrorMessage = "Customer email is a required field.")] 
-     [MaxLength(100, ErrorMessage = "Maximum length for the Email is 100 characters.")] 
+     [MaxLength(100, ErrorMessage = "Maximum length for the email is 100 characters.")] 
      public string Email { get; set; } = null!;
      [Column(TypeName = "varchar(40)")]
-     [MaxLength(40, ErrorMessage = "Maximum length for the BankAccountNumber is 40 characters.")] 
+     [MaxLength(40, ErrorMessage = "Maximum length for the bank account number is 40 characters.")] 
      public string? BankAccountNumber { get; set; } 
 } 

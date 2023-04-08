@@ -43,7 +43,6 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
             response.Success = true;
             response.Message = "Creation Successful";
             response.Customer = customerDto;
-            response.Id = customer.Id;
         }
         return response; 
     } 

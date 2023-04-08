@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Shared.DTO;
 
 namespace Application.Validators
@@ -26,9 +26,12 @@ namespace Application.Validators
                 .NotNull()
                 .MaximumLength(100).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
 
+            RuleFor(p => p.CountryCode)
+                .MaximumLength(4).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
+
             RuleFor(p => p.PhoneNumber)
                 .MaximumLength(20).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
-
+                
             RuleFor(p => p.BankAccountNumber)
                 .MaximumLength(40).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
         }

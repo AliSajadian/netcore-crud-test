@@ -9,7 +9,6 @@ namespace Application.Validators
         {
             Include(new ICustomerDtoValidator());
 
-            RuleFor(p => p.Id).NotNull().WithMessage("{PropertyName} must be present");
         }
     }
 }
